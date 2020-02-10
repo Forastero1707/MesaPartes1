@@ -1,0 +1,59 @@
+<ngx-formpersona *ngIf="personaSeleccionado" [persona]="personaSeleccionado"></ngx-formpersona>
+<div class="row">   
+  <nb-card>
+    <nb-card-header>
+      Personas
+    </nb-card-header>  
+    <nb-card-body>
+      <div class="my-2 text-left">
+        <button class="btn btn-rounded btn-primary" type="button" (click)="abrirModal(persona)" >
+          Crear Cliente
+        </button>
+        <button nbButton hero status="success" (click)="abrirModal(persona)" >Guardar</button>
+      </div>
+      <ng2-smart-table [settings]="settings" [source]="personas" (deleteConfirm)="onDeleteConfirm($event)">
+      </ng2-smart-table>
+      
+      <paginator-nav *ngIf="paginador" [paginador] = "paginador"></paginator-nav>
+    </nb-card-body>
+    <nb-card-footer>Por Coporación Jhs</nb-card-footer>
+  </nb-card>
+</div>
+<ng-template #disabledEsc>
+  <div class="row">
+    <nb-card status="success" class="col-sm-6">
+        <nb-card-header>Persona</nb-card-header>
+        <nb-card-body size="medium">
+            <input type="text" nbInput fullWidth placeholder="DNI">
+            <input type="text" nbInput fullWidth status="primary" placeholder="Apellido Paterno">
+            <input type="text" nbInput fullWidth status="info" placeholder="Apellido Materno">
+            <input type="text" nbInput fullWidth status="success" placeholder="Nombres">
+            <input type="text" nbInput fullWidth status="warning" placeholder="Email">
+            <input type="text" nbInput fullWidth status="primary" placeholder="Dirección">
+            <input type="text" nbInput fullWidth status="primary" placeholder="Telefono">            
+            
+            <button nbButton hero status="success">Guardar</button>
+            <button nbButton hero status="info">Modificar</button>
+            <button nbButton hero status="danger">Cancelar</button>
+            <button nbButton hero status="info">Salir</button>
+        </nb-card-body>
+        <nb-card-footer>Por Coporación Jhs</nb-card-footer>
+    </nb-card>
+</div>
+</ng-template>
+<ng-template #escClose>
+  
+            <input type="text" nbInput fullWidth placeholder="DNI">
+            <input type="text" nbInput fullWidth status="primary" placeholder="Apellido Paterno">
+            <input type="text" nbInput fullWidth status="info" placeholder="Apellido Materno">
+            <input type="text" nbInput fullWidth status="success" placeholder="Nombres">
+            <input type="text" nbInput fullWidth status="warning" placeholder="Email">
+            <input type="text" nbInput fullWidth status="primary" placeholder="Dirección">
+            <input type="text" nbInput fullWidth status="primary" placeholder="Telefono">            
+            
+            <button nbButton hero status="success">Guardar</button>
+            <button nbButton hero status="info">Modificar</button>
+            <button nbButton hero status="danger">Cancelar</button>
+            <button nbButton hero status="info">Salir</button>
+      
+</ng-template>

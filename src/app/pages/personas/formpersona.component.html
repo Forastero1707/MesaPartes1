@@ -1,0 +1,20 @@
+<form (ngSubmit) = "create()">
+    <div class="row">
+        <nb-card status="success" class="col-sm-6">
+            <nb-card-header>Persona</nb-card-header>
+            <nb-card-body size="medium">
+                <input type="text" nbInput fullWidth placeholder="DNI" [(ngModel)]="persona.dni" name="dni" >
+                <input type="text" nbInput fullWidth status="primary" placeholder="Apellido Paterno" [(ngModel)]="persona.appaterno" name="appaterno">
+                <input type="text" nbInput fullWidth status="info" placeholder="Apellido Materno" [(ngModel)]="persona.apmaterno" name="apmaterno">
+                <input type="text" nbInput fullWidth status="success" placeholder="Nombres" [(ngModel)]="persona.nombres" name="nombres">
+                <input type="text" nbInput fullWidth status="warning" placeholder="Email" [(ngModel)]="persona.email" name="email">
+                <input type="text" nbInput fullWidth status="primary" placeholder="Dirección" [(ngModel)]="persona.direccion" name="direccion">
+                <input type="text" nbInput fullWidth status="primary" placeholder="Telefono" [(ngModel)]="persona.telefono" name="telefono">            
+                
+                <button nbButton hero status="success">Guardar</button>
+              
+            </nb-card-body>
+            <nb-card-footer>Por Coporación Jhs</nb-card-footer>
+        </nb-card>
+    </div>
+</form>

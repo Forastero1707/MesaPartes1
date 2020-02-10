@@ -1,0 +1,13 @@
+<div class="row">   
+  <nb-card>
+    <nb-card-header>
+      Smart Table
+    </nb-card-header>
+  
+    <nb-card-body>
+      <ng2-smart-table [settings]="settings" [source]="data" (deleteConfirm)="onDeleteConfirm($event)">
+      </ng2-smart-table>
+    </nb-card-body>
+    <nb-card-footer>Por Coporación Jhs</nb-card-footer>
+  </nb-card>
+</div>

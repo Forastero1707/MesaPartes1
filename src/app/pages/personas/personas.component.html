@@ -1,4 +1,4 @@
-<ngx-formpersona *ngIf="personaSeleccionado" [persona]="personaSeleccionado"></ngx-formpersona>
+<ngx-formpersona *ngIf="personaSeleccionado" [persona]="personaSeleccionado"></ngx-formpersona> 
 <div class="row">   
   <nb-card>
     <nb-card-header>
@@ -6,12 +6,13 @@
     </nb-card-header>  
     <nb-card-body>
       <div class="my-2 text-left">
-        <button class="btn btn-rounded btn-primary" type="button" (click)="abrirModal(persona)" >
+        <button class="btn btn-rounded btn-primary" type="button" (click)="abrirModalconSalida()">
           Crear Cliente
         </button>
-        <button nbButton hero status="success" (click)="abrirModal(persona)" >Guardar</button>
+        <button nbButton hero status="success"  >Guardar</button>
       </div>
-      <ng2-smart-table [settings]="settings" [source]="personas" (deleteConfirm)="onDeleteConfirm($event)">
+      <ng2-smart-table [settings]="settings" [source]="personas" (deleteConfirm)="onDeleteConfirm($event)" (editConfirm)="onSaveConfirm($event)"
+      (createConfirm)="addData(persona)" (userRowSelect)="onUserRowSelect($event)">
       </ng2-smart-table>
       
       <paginator-nav *ngIf="paginador" [paginador] = "paginador"></paginator-nav>

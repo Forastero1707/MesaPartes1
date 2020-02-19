@@ -48,6 +48,14 @@ const routes: Routes = [{
       path: 'personas/page/:page',
       component: PersonasComponent,
     },
+    /*{
+      path: 'personas/form',
+      component: FormPersonaComponent,
+    },*/
+    {
+      path: 'personas/form/:dni',
+      component: FormPersonaComponent,
+    },
   ],
 }];
 

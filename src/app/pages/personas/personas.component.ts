@@ -1,12 +1,14 @@
-import { ChangeDetectionStrategy, Component, OnInit, TemplateRef, ViewChild  } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, TemplateRef, ViewChild, Input  } from '@angular/core';
 import { Persona } from './persona';
 import { PersonaService } from './persona.service';
+import { FormPersonaService } from "./formpersona.service";
 import { ActivatedRoute } from '@angular/router';
 import { tap } from 'rxjs/operators';
-//import { FormPersonaComponent } from './formpersona.component';
+import { FormPersonaComponent } from './formpersona.component';
 //import { tap } from 'rxjs/operators';
-import { NbWindowService } from '@nebular/theme';
+import { NbWindowService, NbDialogService} from '@nebular/theme';
 import { from } from 'rxjs';
+
 @Component({
   selector: 'ngx-personas',
   styleUrls: ['./personas.component.scss'],
@@ -31,17 +33,21 @@ import { from } from 'rxjs';
 })
 export class PersonasComponent implements OnInit {
 
+
+
   personas: Persona[];
   paginador: any;
   personaSeleccionado: Persona;
-  
+  persona: Persona = new Persona();
 
-  @ViewChild('escClose', { read: TemplateRef, static: false }) escCloseTemplate: TemplateRef<HTMLElement>;
+  @ViewChild('formPersona', { read: TemplateRef, static: false }) escCloseTemplate: TemplateRef<HTMLElement>;
   @ViewChild('disabledEsc', { read: TemplateRef, static: false }) disabledEscTemplate: TemplateRef<HTMLElement>;
 
   constructor(private personaService: PersonaService,
+    private formPersonaService: FormPersonaService,
     private activatedRoute: ActivatedRoute,
     private windowService: NbWindowService,
+    private dialogService: NbDialogService,
      ){  }
 
   ngOnInit(){   
@@ -70,6 +76,7 @@ export class PersonasComponent implements OnInit {
   }
 
   settings = {
+    
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',
@@ -114,7 +121,7 @@ export class PersonasComponent implements OnInit {
         title: 'Telefono',
         type: 'string',
       },
-    },
+    },    
   };   
   
   //source = this.personaService.getPersonas(0); 
@@ -124,7 +131,11 @@ export class PersonasComponent implements OnInit {
   /*openWindowForm() {
     this.windowService.open(FormPersonaComponent, );
   }*/
-
+  onUserRowSelect(event): void {
+    console.log(event);    
+    this.persona = <Persona> event.data;
+    console.log(this.persona);    
+  }
   openWindowWithBackdrop() {
     this.windowService.open(
       this.escCloseTemplate,
@@ -145,9 +156,56 @@ export class PersonasComponent implements OnInit {
       event.confirm.reject();
     }
   }
+  editData(event) {
+    
+    if (window.confirm('Are you sure you want to save Changes?')) {
+     /* this.manu = this.manu.filter(obj => obj.nic !== event.data.nic);
+      this.manu.push(event.newData);
+      this.service.addManufacture({ manufact: this.manu }).subscribe(next => {
+        event.confirm.reject();
+      });*/
+      event.confirm.resolve(event.newData);
+    } else {
+      event.confirm.reject();
+    }
+    
+  }
+
+  addData(data) {
+    /*this.manu.push(data.newData);
+    console.log(this.manu);
+    this.service.addManufacture({ manufact: this.manu }).subscribe(next => {
+      data.confirm.reject();
+    });*/
+  }
+  onCustomAction(event) {
+    alert(`Custom event '${event.action}' fired on row №: ${event.data.id}`);
+    //this.router.navigate(['pages/ourPage']);
+  }
   abrirModal(persona: Persona)
   {
-    //this.personaSeleccionado = persona;
-    console.log(persona.dni);
+    if(persona!=null)
+    {
+      console.log(persona);
+      this.personaSeleccionado = persona;
+      this.formPersonaService.abrirModal();
+    }
+    else{
+      this.personaSeleccionado = new Persona();
+      this.formPersonaService.abrirModal();
+      console.log("Esta Vacia");
+    }    
+  }
+  abrirModalconSalida()
+  {
+    this.open(false);
+  }
+
+  open(closeOnBackdropClick: boolean){
+    this.dialogService.open(FormPersonaComponent, {
+      context: {
+        persona: this.persona,        
+      }, closeOnBackdropClick,
+    });
   }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Persona } from './persona'
-import { HttpClient, HttpRequest, HttpEvent } from '@angular/common/http';
+import { HttpClient, HttpRequest, HttpEvent, HttpHeaders } from '@angular/common/http';
 import { map, catchError, tap } from "rxjs/operators";
 import { Observable, throwError } from 'rxjs';
 import { Router } from '@angular/router';
@@ -11,6 +11,9 @@ import { Content } from '@angular/compiler/src/render3/r3_ast';
 export class PersonaService{
 
     private urlEndPoint: string = 'http://localhost:8080/api/personas';
+
+    private httpHeaders = new HttpHeaders({'Content-Type' : 'application/json'})
+
     private source: Persona[];
     constructor(private http: HttpClient) { }
 
@@ -37,6 +40,10 @@ export class PersonaService{
             })
         );
     }
+    getPersona(dni): Observable<Persona>{
+        return this.http.get<Persona>(`${this.urlEndPoint}/${dni}`);
+    }
+
     create(persona : Persona): Observable<Persona> {
         return this.http.post(this.urlEndPoint, persona)
         .pipe(
@@ -51,11 +58,11 @@ export class PersonaService{
                 return throwError(e);
             }));
     }
-    getPersona(id: any): Observable<Persona> {
+    /*getPersona(id: any): Observable<Persona> {
         return this.http.get(this.urlEndPoint).pipe(
             map( (response) => response as Persona)
         );
-    }
+    }*/
 
     
 }

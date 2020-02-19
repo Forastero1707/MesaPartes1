@@ -1,0 +1,1 @@
+https://github.com/akveo/ngx-admin/blob/master/src/app/pages/modal-overlays/modal-overlays.module.ts

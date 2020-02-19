@@ -1,6 +1,7 @@
 import { NgModule, LOCALE_ID } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { NbMenuModule } from '@nebular/theme';
-import { NbSidebarModule, NbLayoutModule, NbButtonModule, NbInputModule, NbCardModule, NbSelectModule, NbWindowModule } from '@nebular/theme';
+import { NbSidebarModule, NbLayoutModule, NbButtonModule, NbInputModule, NbCardModule, NbSelectModule, NbWindowModule, NbDialogModule } from '@nebular/theme';
 import { RouterModule } from '@angular/router'; //
 import { ThemeModule } from '../@theme/theme.module';
 import { PagesComponent } from './pages.component';
@@ -13,6 +14,7 @@ import { PersonasModule } from './personas/personas.module';
 import { PagesRoutingModule } from './pages-routing.module';
 import { PersonaService } from './personas/persona.service';
 import { PaginatorComponent } from './paginator/paginator.component';
+import { FormPersonaComponent } from "./personas/formpersona.component";
 
 
 
@@ -31,16 +33,15 @@ import { PaginatorComponent } from './paginator/paginator.component';
     NbSelectModule,
     RouterModule,
     NbWindowModule,
+    FormsModule,
     
     
   ],
   declarations: [
     PagesComponent,
     RegistroExternoComponent,
-    RegistroInternoComponent,
-    
-   
-    //FormPersonaComponent
+    RegistroInternoComponent,   
+    //FormPersonaComponent,
     //PersonasComponent
   ],
   //entryComponents: [PaginatorComponent,],

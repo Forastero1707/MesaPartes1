@@ -12,7 +12,7 @@
         <button nbButton hero status="success"  >Guardar</button>
       </div>
       <ng2-smart-table [settings]="settings" [source]="personas" (deleteConfirm)="onDeleteConfirm($event)" (editConfirm)="onSaveConfirm($event)"
-      (createConfirm)="addData(persona)" (userRowSelect)="onUserRowSelect($event)">
+      (createConfirm)="addData($event)" (userRowSelect)="onUserRowSelect($event)">
       </ng2-smart-table>
       
       <paginator-nav *ngIf="paginador" [paginador] = "paginador"></paginator-nav>

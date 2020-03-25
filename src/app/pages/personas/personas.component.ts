@@ -6,8 +6,9 @@ import { ActivatedRoute } from '@angular/router';
 import { tap } from 'rxjs/operators';
 import { FormPersonaComponent } from './formpersona.component';
 //import { tap } from 'rxjs/operators';
-import { NbWindowService, NbDialogService} from '@nebular/theme';
+import { NbWindowService, NbDialogService, NbToastrService} from '@nebular/theme';
 import { from } from 'rxjs';
+import { Router} from '@angular/router';
 
 @Component({
   selector: 'ngx-personas',
@@ -34,11 +35,12 @@ import { from } from 'rxjs';
 export class PersonasComponent implements OnInit {
 
 
-
+  private index: number = 0;
   personas: Persona[];
   paginador: any;
   personaSeleccionado: Persona;
-  persona: Persona = new Persona();
+  @Input() persona: Persona = new Persona();
+  errores: string[];
 
   @ViewChild('formPersona', { read: TemplateRef, static: false }) escCloseTemplate: TemplateRef<HTMLElement>;
   @ViewChild('disabledEsc', { read: TemplateRef, static: false }) disabledEscTemplate: TemplateRef<HTMLElement>;
@@ -48,6 +50,10 @@ export class PersonasComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private windowService: NbWindowService,
     private dialogService: NbDialogService,
+    private toastrService: NbToastrService,
+    private router: Router,
+    
+    
      ){  }
 
   ngOnInit(){   
@@ -76,12 +82,20 @@ export class PersonasComponent implements OnInit {
   }
 
   settings = {
-    
+    actions: {
+      columnTitle: 'Actions',
+      add: true,
+      edit: true,
+      delete: true,
+      custom: [],
+      position: 'left', // left|right
+    },
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',
       cancelButtonContent: '<i class="nb-close"></i>',
-      visible : false,
+      confirmCreate: true,
+      visible : true,
     },
     edit: {
       editButtonContent: '<i class="nb-edit"></i>',
@@ -170,8 +184,25 @@ export class PersonasComponent implements OnInit {
     }
     
   }
-
-  addData(data) {
+  
+  addData(event): void {    
+    this.persona = event.newData;
+    console.log(this.persona)
+            this.personaService.create(this.persona)
+              .subscribe(
+                persona => {
+                   
+                    //this.router.navigate(['/pages/personas']);
+                    this.showToast('top-right','success' );
+                    event.confirm.resolve(event.newData);
+                  //swal('Nuevo cliente', `El cliente ${cliente.nombre} ha sido creado con éxito`, 'success');
+                },
+                err => {
+                  this.errores = err.error.errors as string[];
+                  console.error('Código del error desde el backend: ' + err.status);
+                  console.error(err.error.errors);
+                }
+              );
     /*this.manu.push(data.newData);
     console.log(this.manu);
     this.service.addManufacture({ manufact: this.manu }).subscribe(next => {
@@ -198,7 +229,7 @@ export class PersonasComponent implements OnInit {
   }
   abrirModalconSalida()
   {
-    this.open(false);
+    this.open(false);    
   }
 
   open(closeOnBackdropClick: boolean){
@@ -207,5 +238,12 @@ export class PersonasComponent implements OnInit {
         persona: this.persona,        
       }, closeOnBackdropClick,
     });
+  }
+  showToast(position, status) {
+    this.index += 1;
+    this.toastrService.show(
+      status || 'Success',
+      `Toast ${this.index}`,
+      { position, status });
   }
 }

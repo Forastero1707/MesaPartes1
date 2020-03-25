@@ -14,3 +14,5 @@ nb-card{
 paginator-nav {
   margin: 5px;
 }
+  :host /deep/ ng2-smart-table thead input-filter input{ color: rgb(8, 235, 243); }
+  :host /deep/ ng2-smart-table thead input{ color: #009ECE; }

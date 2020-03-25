@@ -1,7 +1,7 @@
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NbMenuModule } from '@nebular/theme';
-import { NbSidebarModule, NbLayoutModule, NbButtonModule, NbInputModule, NbCardModule, NbSelectModule, NbWindowModule, NbDialogModule } from '@nebular/theme';
+import { NbSidebarModule, NbLayoutModule, NbButtonModule, NbInputModule, NbCardModule, NbSelectModule, NbWindowModule, NbDialogModule, NbTreeGridModule } from '@nebular/theme';
 import { RouterModule } from '@angular/router'; //
 import { ThemeModule } from '../@theme/theme.module';
 import { PagesComponent } from './pages.component';
@@ -15,7 +15,7 @@ import { PagesRoutingModule } from './pages-routing.module';
 import { PersonaService } from './personas/persona.service';
 import { PaginatorComponent } from './paginator/paginator.component';
 import { FormPersonaComponent } from "./personas/formpersona.component";
-
+import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 
 @NgModule({
@@ -34,7 +34,8 @@ import { FormPersonaComponent } from "./personas/formpersona.component";
     RouterModule,
     NbWindowModule,
     FormsModule,
-    
+    Ng2SmartTableModule,
+    NbTreeGridModule,
     
   ],
   declarations: [

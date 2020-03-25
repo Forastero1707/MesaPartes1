@@ -7,6 +7,7 @@ import { Injectable } from '@angular/core';
 
 export class FormPersonaService{
     
+    
     modal: boolean = false;
     
     constructor() {}

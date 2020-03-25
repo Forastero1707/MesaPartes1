@@ -37,7 +37,7 @@ const routes: Routes = [{
     },*/    
     {
       path: 'dashboard',
-      component: PersonasComponent,
+      component: DashboardComponent,
     },   
     {
       path: '',

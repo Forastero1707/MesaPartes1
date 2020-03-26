@@ -108,19 +108,19 @@ export class PersonasComponent implements OnInit {
     },
     columns: {
       dni: {
-        title: 'DNI',
+        title: 'DNI*',
         type: 'string',
       },
       appaterno: {
-        title: 'Apellido Paterno',
+        title: 'Apellido Paterno*',
         type: 'string',
       },
       apmaterno: {
-        title: 'Apellido Materno',
+        title: 'Apellido Materno*',
         type: 'string',
       },
       nombres: {
-        title: 'Nombres',
+        title: 'Nombres*',
         type: 'string',
       },
       email: {
@@ -184,18 +184,68 @@ export class PersonasComponent implements OnInit {
     }
     
   }
-  
+  validarRequired(persona : Persona)
+  {
+    var mensaje="";
+    var indicador = true;
+    if(persona.dni=="" || persona.dni==null){mensaje = "* Se requiere el Numero de DNI"; indicador=false; this.showToast('Alerta',mensaje,'top-right','warning' );}
+    if(persona.nombres=="" || persona.nombres==null){mensaje = "* Se requiere el/los Nombre(s)";this.showToast('Alerta',mensaje,'top-right','warning' );}
+    if(persona.appaterno=="" || persona.appaterno==null){mensaje = "* Se requiere el apellido paterno";this.showToast('Alerta',mensaje,'top-right','warning' );}
+    if(persona.apmaterno=="" || persona.apmaterno==null){mensaje = "* Se requiere el apellido materno";this.showToast('Alerta',mensaje,'top-right','warning' );}
+    if(indicador)
+    { return true; }
+    else {      
+      return false;
+    }
+  }
+  validarError(persona : Persona)
+  {
+    var indicador = true;
+    var mensaje="";
+    var isdni = /^[0-9]{8}$/.test(persona.dni) ? indicador = true :  mensaje += "El DNI No tiene Formato Correcto debe ser 8 digitos";
+    var isname = /^[a-zA-Z ]+$/.test(persona.nombres) ? indicador = true : mensaje += "* El/Los Nombre(s) No tiene(n) Formato Correcto";
+    var isappaterno = /^[a-zA-Z ]+$/.test(persona.appaterno) ? indicador = true : mensaje += "* El Apellido Paterno No tiene Formato Correcto";
+    var isapmaterno = /^[a-zA-Z ]+$/.test(persona.apmaterno) ? indicador = true : mensaje += "* El Apellido Materno No tiene Formato Correcto";;
+    var istelephone = /^(^\\+)?[0-9()-]*$/.test(persona.telefono) ? indicador = true : mensaje += "* El Telefono No tiene Formato Correcto";;
+    var isEmail = typeof persona.email==='string' && /^[\w+\d+._]+\@[\w+\d+_+]+\.[\w+\d+._]{2,8}$/.test(persona.email) ? indicador = true : mensaje += "* El Email No tiene Formato Correcto";;
+    if(mensaje=="")
+    {
+      return true;
+    }
+    else
+    {
+      this.showToast('Alerta',mensaje,'top-right','warning' );
+      return false;
+    }
+    
+  }
+
+  validarFila(persona : Persona)
+  {
+    if(this.validarRequired(persona)&&this.validarError(persona))
+    {
+      return true
+    }  
+    else
+    {
+      return false
+    }  
+    /*var TELEPHONE = "(^\\+)?[0-9()-]*";
+    var str = persona.email; 
+    var isEmail = function(str) {
+      return typeof str==='string' && /^[\w+\d+._]+\@[\w+\d+_+]+\.[\w+\d+._]{2,8}$/.test(str);
+    }*/
+    
+  }
   addData(event): void {    
-    this.persona = event.newData;
-    console.log(this.persona)
-            this.personaService.create(this.persona)
+    this.persona = event.newData;    
+    if(this.validarFila(this.persona))
+    {
+      this.showToast('Satifactorio',`${this.persona.nombres} se ha guardado correctamente ` ,'top-right','success' );
+      this.personaService.create(this.persona)
               .subscribe(
-                persona => {
-                   
-                    //this.router.navigate(['/pages/personas']);
-                    this.showToast('top-right','success' );
-                    event.confirm.resolve(event.newData);
-                  //swal('Nuevo cliente', `El cliente ${cliente.nombre} ha sido creado con éxito`, 'success');
+                persona => {                                
+                  event.confirm.resolve(event.newData);                  
                 },
                 err => {
                   this.errores = err.error.errors as string[];
@@ -203,11 +253,7 @@ export class PersonasComponent implements OnInit {
                   console.error(err.error.errors);
                 }
               );
-    /*this.manu.push(data.newData);
-    console.log(this.manu);
-    this.service.addManufacture({ manufact: this.manu }).subscribe(next => {
-      data.confirm.reject();
-    });*/
+    }
   }
   onCustomAction(event) {
     alert(`Custom event '${event.action}' fired on row №: ${event.data.id}`);
@@ -239,11 +285,10 @@ export class PersonasComponent implements OnInit {
       }, closeOnBackdropClick,
     });
   }
-  showToast(position, status) {
+  showToast(titulo, mensaje, position, status) {
     this.index += 1;
     this.toastrService.show(
-      status || 'Success',
-      `Toast ${this.index}`,
+      mensaje, titulo,
       { position, status });
   }
 }

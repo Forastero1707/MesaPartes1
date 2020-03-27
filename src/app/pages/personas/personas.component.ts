@@ -11,6 +11,28 @@ import { from } from 'rxjs';
 import { Router} from '@angular/router';
 
 @Component({
+  selector: 'app-confirm-dialog',
+  template: `
+    <nb-card status="info">
+      <nb-card-header>{{ title }}</nb-card-header>
+      <nb-card-body> {{ mensaje }}  
+        <br>    
+        <br> 
+        <div class="row w-100 align-items-center">
+    			<div class="col text-center">
+            <button nbButton outline status="success" shape="round" size="medium">Si</button>      
+            <button nbButton outline status="danger" shape="round" size="medium">No</button> 
+    			</div>	
+    		</div>          
+      </nb-card-body> 
+    </nb-card>
+  `,
+})
+export class ConfirmDialogComponent {  
+}
+
+
+@Component({
   selector: 'ngx-personas',
   styleUrls: ['./personas.component.scss'],
   //changeDetection: ChangeDetectionStrategy.OnPush,
@@ -163,13 +185,7 @@ export class PersonasComponent implements OnInit {
       { title: 'Window without backdrop', hasBackdrop: false, closeOnEsc: false },
     );
   }
-  onDeleteConfirm(event): void {
-    if (window.confirm('Are you sure you want to delete?')) {
-      event.confirm.resolve();
-    } else {
-      event.confirm.reject();
-    }
-  }
+  
   editData(event) {
     
     if (window.confirm('Are you sure you want to save Changes?')) {
@@ -277,6 +293,18 @@ export class PersonasComponent implements OnInit {
   {
     this.open(false);    
   }
+  openModalConfirm()
+  {
+    this.openConfirm(false);    
+  }
+  openConfirm(closeOnBackdropClick: boolean){
+    this.dialogService.open(ConfirmDialogComponent, {
+      context: {
+               title: 'Confirmación',
+               mensaje : '¿Desea Eliminar este Registro?' 
+      }, closeOnBackdropClick,
+    });
+  }
 
   open(closeOnBackdropClick: boolean){
     this.dialogService.open(FormPersonaComponent, {
@@ -290,5 +318,13 @@ export class PersonasComponent implements OnInit {
     this.toastrService.show(
       mensaje, titulo,
       { position, status });
+  }
+  onDeleteConfirm(event): void {
+    this.openModalConfirm();
+    /*if (window.confirm('Are you sure you want to delete?')) {
+      event.confirm.resolve();
+    } else {
+      event.confirm.reject();
+    }*/
   }
 }

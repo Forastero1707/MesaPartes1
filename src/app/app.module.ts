@@ -11,7 +11,7 @@ import { CoreModule } from './@core/core.module';
 import { ThemeModule } from './@theme/theme.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-
+import { ConfirmDialogComponent } from './pages/personas/personas.component';
 import { PaginatorComponent } from './pages/paginator/paginator.component';
 //import { PersonaService } from './pages/personas/persona.service'
 import { CommonModule } from '@angular/common';
@@ -59,7 +59,7 @@ import {
     }),
     CoreModule.forRoot(),
   ],
- // entryComponents: [FormPersonaComponent],
+  entryComponents: [],
  // providers: [PersonaService],
   bootstrap: [AppComponent],
 })
